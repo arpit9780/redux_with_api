@@ -5,9 +5,56 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.inpt {
+  border-radius: 10px;
+  border: 2px solid rgb(2, 53, 59);
+  padding: -5px ; 
+  width:300px;
+  justify-content:center;
+  display:flex
+}
+
+  .container-su{
+    display:flex;
+    justify-content: center;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+    margin-top: 50px;
+    width: 350px;
+    position: relative;
+    border-radius: 20px;
+    opacity: 5;
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 21px 7px rgb(3, 194, 241) ;
+   }
+
+  .err {
+    font-family: "Times New Roman", Times, serif;
+    color: rgb(214, 43, 43);
+   }
+   .akh {
+    position: absolute;
+    right: 31px;
+    bottom: 44px;
+   }
+
+   .bgwall {
+    height: 100vh;
+    background-image: url("https://images.unsplash.com/photo-1501236570302-906143a7c9f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80") ;
+    background-size: cover;
+  }
+
+  input:hover {
+    transform : scale(1.1);
+    transition: .35s ease;
+    background-color: rgb(34, 154, 235);
+  }
