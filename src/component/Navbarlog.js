@@ -1,4 +1,4 @@
-import React from 'react'
+	import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
@@ -23,7 +23,7 @@ function NavbarLog() {
  return (<>
         <Navbar bg="primary" variant="dark ">
         <Container>
-        <Navbar.Brand href="/">LoginSignup</Navbar.Brand>
+        <Navbar.Brand href="/" className="font-weight-bold">LoginSignUp</Navbar.Brand>
         {/* <NavLink to="/" className="Navhome homePage ">LoginSignup</NavLink> */}
           <Nav className="mx-auto ">
          

@@ -10,7 +10,7 @@ import NavbarLog from './component/Navbarlog';
 
 function App() {
   return (
-    <div className='bgwall'>
+    // <div className='bgwall'>
     <div className="App ">
       <NavbarLog/>
     <ToastContainer/>
@@ -21,7 +21,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard/>}/>
       </Routes>
     </div>
-    </div>
+    // </div>
       );
 }
 

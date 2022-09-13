@@ -15,15 +15,21 @@ function LogIn() {
   const [eye, setEye] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
 
+  useEffect(()=>{
+
+  },[])
+  
   const myFunc = () => {
-    navigate("/dashboard")
+    // navigate("/dashboard")
     toast.success('🦄 Login Successfull', {
       position: toast.POSITION.TOP_RIGHT,
       draggable: true,
     });
   }
+
   const onSubmit = (data) => {
     dispatch(ActionLogin(data, myFunc))
+    navigate("/dashboard")
   }
   // const errorToast = () => {
   //   toast("Error", {
@@ -34,8 +40,8 @@ function LogIn() {
   // }
   return (
     <>
-      <center>
-        <div className="container-su">
+      <div className='main'>
+        <div className="cardd">
           <form
             const onSubmit={handleSubmit(onSubmit)}>
 
@@ -58,11 +64,11 @@ function LogIn() {
               :
               <AiOutlineEye className='akh' onClick={() => { setEye(true) }} />}
             {errors.password && <span className="err">{errors.password.message}</span>}
-
+<br />
             <button className="btn" type="submit">Submit</button>
           </form>
         </div>
-      </center>
+        </div>
     </>
   )
 }

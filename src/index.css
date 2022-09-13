@@ -5,7 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+  background-image: url("https://images.unsplash.com/photo-1501236570302-906143a7c9f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80") ;
+  background-size: cover;
+   
 }
 
 code {
@@ -14,28 +16,63 @@ code {
 }
 
 
-.inpt {
-  border-radius: 10px;
-  border: 2px solid rgb(2, 53, 59);
-  padding: -5px ; 
-  width:300px;
-  justify-content:center;
-  display:flex
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+  .cardd{
+    font-family: 'poppins' , sans-serif;
+    padding: 10px;
+    position: relative;
+    width: 350px;
+    height: 260px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 35px 80px rgba(0,0,0,0,15) ;
+  transition: 0.5s;
+  background: linear-gradient(45deg,#fbda61,#ff5acd);
+   }
+
+   .cardd:hover{
+    height: 350px;
+    padding: 50px;
+   }
+ .imgBx { 
+ position: absolute;
+ left: 50%;
+ top:-40px;
+ transform: translateX(-50%);
+ width: 50px;
+ height: 50px;
+ background: #fff;
+ border-radius: 10px;
+ transition: 0.5s;
+ }
+
+ .imgBx img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  transition: 00.5s;
+ }
+
+ .cardd:hover .imgBx {
+   width: 90px;
+   height: 90px;
+ }
+ .cardd:hover .akh {
+  position: absolute;
+  right: 74px;
+  bottom: 155px;
 }
 
-  .container-su{
-    display:flex;
-    justify-content: center;
-    font-family: "Times New Roman", Times, serif;
-    text-align: center;
-    margin-top: 50px;
-    width: 350px;
-    position: relative;
-    border-radius: 20px;
-    opacity: 5;
-    color: rgb(255, 255, 255);
-    box-shadow: 0px 0px 21px 7px rgb(3, 194, 241) ;
-   }
 
   .err {
     font-family: "Times New Roman", Times, serif;
@@ -43,18 +80,21 @@ code {
    }
    .akh {
     position: absolute;
-    right: 31px;
-    bottom: 44px;
-   }
+    right: 74px;
+    bottom: 104px;
+}
 
    .bgwall {
     height: 100vh;
     background-image: url("https://images.unsplash.com/photo-1501236570302-906143a7c9f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80") ;
     background-size: cover;
+    
   }
 
-  input:hover {
-    transform : scale(1.1);
-    transition: .35s ease;
-    background-color: rgb(34, 154, 235);
+ 
+
+  .btns {
+    position: absolute;
+    top: 9px;
+    right: 27px;
   }

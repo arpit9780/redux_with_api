@@ -1,6 +1,4 @@
-import axios from "axios";
-
-import {GET_REGISTER} from "./types"
+import instance from "./instance";
 
 export const get_register = (data) => {
     // console.log(34534,data)
@@ -14,14 +12,20 @@ export const get_register = (data) => {
         }
     }
     return (dispatch) => {
-            axios.post("https://react-rails-api-demo.herokuapp.com/api/v1/signup",signupbody)
+        instance.post("/signup",signupbody)
             .then(res=>{
                  dispatch({
-                    type :GET_REGISTER,
+                    type :"GET_REGISTER",
                     payload : res.data,
                 })
-                console.log("success",res.data);
-                console.log(111,res.data.token);
+                .catch(err =>{
+                    dispatch({
+                        type:"ERROR",
+                        payload:err
+                    })
+                   
+                })
+               
             })
     }
     }

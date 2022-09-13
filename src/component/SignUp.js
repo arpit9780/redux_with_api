@@ -1,26 +1,27 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
-import { get_register } from '../redux/actions';
-import NavbarLog from './Navbarlog';
-
+import { useNavigate } from 'react-router-dom';
+import { get_register } from '../redux/ActionSignup';
 
 function SignUp() {
-    //
-    // const {users}=useSelector(state=>state.User_reducer)  
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
         console.log(23, data);
         dispatch(get_register(data))  
+       
            
     }
     return (
         <>
-            <div>
-                <center>
-                    <div className="container-su">
+            <div className='main'>
+            <div className="cardd">
+                    <div className="imgBx">
+                        <img src="../assets/as.png" />
+                    </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
 
                             <h4>Create Account</h4>
@@ -45,10 +46,10 @@ function SignUp() {
                             </center>
                         </form>
 
-                    </div>
-                </center>
+                   
+            
             </div>
-
+            </div>
       
 
         </>
