@@ -1,0 +1,8 @@
+export const GETSIGNUP = "GETSIGNUP"
+export const GETLOGIN = "GETLOGIN"
+export const GETPOSTS = "GETPOSTS"
+export const GETSIGNLEPOST = "GETSINGLEPOST"
+export const CREATEPOST = "CREATEPOST"
+export const DELETEPOST = "DELETEPOST"
+export const UPDATEPOST = "UPDATEPOST"
+export const ERROR = "ERROR"

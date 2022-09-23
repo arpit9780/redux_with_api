@@ -1,130 +1,141 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Actionpost } from '../redux/Actionpost'
-import { useForm } from "react-hook-form";
-import { ActionCreatePost } from '../redux/ActionCreatePost';
-import { ActionDeletePost } from '../redux/ActionDeletePost';
-import { ActionEditPost } from '../redux/ActionEditPost';
-import { Modal, Button } from '@mantine/core';
+import ClipLoader from "react-spinners/ClipLoader";
 import { useState } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+import { createPost, deletePost, getPostData } from '../redux/actions/PostActions';
+import { useNavigate } from 'react-router-dom';
+import { UpdateViaModel } from './UpdateViaModel';
+import { NewPostCreate } from './NewPostCreate';
+
 
 
 function Dashboard() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [opened, setOpened] = useState(false);
-  const [postID,setPostID] = useState();
-  const [newTitle,setNewTitle] = useState();
-  const [newDescription,setNewDescription] = useState();
+ 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("")
+  const [searchArr, setSearchArr] = useState()
+  const [isVisibleModal,setIsVisibleModal] = useState(false)
+  const [isVisibleCreate,setIsVisibleCreate] = useState(false)
+  const [isOpen,setIsOpen] = useState(false)
+  const [post,setPost] = useState("")
+  const [loading , setLoading] = useState(false)
 
-  const data = useSelector((state)=>state.User_reducer.post);
-  const Adata = useSelector((state)=>state.User_reducer.createPost);
-  const Bdata = useSelector((state)=>state.User_reducer.deletePost);
-  const Cdata = useSelector((state)=>state.User_reducer.editPost);
+  const data = useSelector((state) => state.PostReducer?.post?.posts);
+ 
 
-  const newData = data.posts
+  useEffect(() => {
+    dispatch(getPostData())
+  },[data])
 
-  useEffect(()=>{console.log("refresh")
-   dispatch(Actionpost())
-  },[Adata,Bdata,Cdata])
-  
-  const { handleSubmit,register } = useForm();
-  
+
   const logout = () => {
-    localStorage.removeItem("user");
-    navigate("/")
+    setLoading(true)
+   localStorage.removeItem("token");
+    // window.location.href = "/login"
+    navigate("/login")
   }
-  
-  const onSubmit = (data) => {
-  console.log("onSubmit",data);
-   dispatch(ActionCreatePost(data))
+
+ 
+
+  const postDataDelete = (id) => {
+    dispatch(deletePost(id));
+  }
+
+  const postDataEdit = (item) => {
+    setPost(item)
+    setIsOpen(true)
+    setIsVisibleModal(true)
 
   }
 
-  const deletePost = (id) =>{
-   console.log("deletePost",id);
-   dispatch(ActionDeletePost(id))
+ 
+
+  const searchText = (e) => {
+    setSearch(e.target.value)
+    const filteredData = data?.filter((el,i) => {
+      if (!search) {
+        return el
+      }
+      else {
+        return el.title.toLowerCase().includes(e.target.value.toLowerCase())
+      }
+    })
+    setSearchArr(filteredData)
   }
 
-  const editPost = (id,tit,des) =>{
-    console.log("editPost",id)
-    setPostID(id)
-    setOpened(true)
-    setNewTitle(tit)
-    setNewDescription(des)
-
-  }
-
-  const updateNewPost = () =>{
-    console.log(2323,newTitle,newDescription)
-    let body = {
-      newTitle,
-      newDescription
-    }
-    console.log(3434,body);
-    dispatch(ActionEditPost(body,postID))
-  }
-  
+  const onClickHandle = () =>{
+    setIsVisibleCreate(true)
+    setIsOpen(true)
+  } 
   return (
     <>
-    <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Update"
-      >
-        <p>Title</p>
-        <input type="text" value={newTitle} onChange={(e)=>setNewTitle(e.target.value)}/>
-        <br />
-        <p>Description</p>
-        <input type="text" value={newDescription} onChange={(e)=>setNewDescription(e.target.value)} />
-        <br /><br />
-        <Button onClick={()=>updateNewPost()}>Update</Button>
-      </Modal>
+     <div className='btns'>
+        <button className="btn btn-danger" onClick={()=>logout()}>  {loading?
+             <ClipLoader loading={loading}  size={20} />
+              :" logout"}</button>
+      </div>
 
 
-    <div className='btns'>
-    <a href='/'  className="btn btn-danger" onClick={logout}>logout</a>
-    </div>
+      <div className="card-header createBar">
+      <button className="btn btn-warning" onClick={onClickHandle} >Create Post</button>
+      </div>
 
-
-  <div className="card-header">
-  <form onSubmit={handleSubmit(onSubmit)}>
-    <input placeholder='Title' {...register("title")}/>
-    <input placeholder='Discription' {...register("description", { required: true })}/>
-    <button type='submit' className="btn btn-warning" >Create Post</button>
-    </form>
-  </div>
-
-    <button className="btn btn-info" >Profiles</ button>
-  <table className="table table-striped table-dark container" >
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  {newData?.map((item)=>
-  <tbody >
-    <tr>
-      <th scope="row">{item.id}</th>
-      <td>{item.title}</td>
-      <td>{item.description}</td>
-      <td>
-        <button className="btn btn-danger" onClick={()=>deletePost(item.id)}>Delete</button>
-        <button className="btn btn-success" onClick={()=>editPost(item.id, item.title, item.description)}>Edit</button>
-      </td>
-    </tr>
+      <div className='searchBar'>
+        <input type="text" placeholder='Search' onChange={(e) => { searchText(e) }} />
+      </div>
+      
     
-   
-  </tbody>
-)}
-</table>
-
+     
+      <table className="table table-striped table-dark container" style={{marginTop:"50px"}}>
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody >
+          {!search  ?
+           data?.map((item,i) => {
+              return (
+                <tr key={i}>
+                  <th scope="row">{item.id}</th>
+                  <td>{item.title}</td>
+                  <td>{item.description}</td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => postDataDelete(item.id)}>Delete</button>
+                    <button className="btn btn-success" onClick={() => postDataEdit(item)}>Edit</button>
+                  </td>
+                </tr>
+              )}) 
+              :
+            searchArr?.map((item,i) => {
+              return (
+                <tr key={i}>
+                  <th scope="row">{item.id}</th>
+                  <td>{item.title}</td>
+                  <td>{item.description}</td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => postDataDelete(item.id)}>Delete</button>
+                    <button className="btn btn-success" onClick={() => postDataEdit(item)}>Edit</button>
+                 </td>
+                </tr>
+              )})
+          }
+        </tbody>
+      </table> 
+    {isVisibleModal?<UpdateViaModel isOpen={isOpen} setIsOpen={setIsOpen} post={post}/>:null}
+    {isVisibleCreate?<NewPostCreate isOpen={isOpen} setIsOpen={setIsOpen}/>: null}
+     
     </>
   )
 }
 
 export default Dashboard
+
+
+
+

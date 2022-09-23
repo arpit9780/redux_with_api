@@ -1,31 +1,47 @@
-import React,{useEffect} from 'react'
+import React,{useState} from 'react'
 import { useForm } from "react-hook-form";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { GetSignup } from '../redux/actions/AuthAction';
 import { useNavigate } from 'react-router-dom';
-import { get_register } from '../redux/ActionSignup';
+import ClipLoader from "react-spinners/ClipLoader";
 
 function SignUp() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false);
+    const successToast = useSelector((state)=>state?.UserReducer?.user)
+    const errorToast = useSelector((state)=> state?.UserReducer?.error?.response?.data?.errors?.[0] )
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    console.log(65,errorToast)
     const onSubmit = (data) => {
-        console.log(23, data);
-        dispatch(get_register(data))  
-       
-           
+        dispatch(GetSignup(data)) 
+        setLoading(true) 
     }
+
+    useEffect(()=>{
+        console.log("userDataError",successToast.success )
+        if(successToast.success ===true){
+          console.log("msg",successToast?.message?.[0])
+          toast.success(successToast?.message?.[0]);
+          setLoading(false) 
+        }
+        else {
+            toast.error(errorToast)
+        }
+      },[successToast,errorToast])
     return (
         <>
             <div className='main'>
             <div className="cardd">
                     <div className="imgBx">
-                        <img src="../assets/as.png" />
+                        <img src="../assets/as.png" alt='pp'/>
                     </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
-
                             <h4>Create Account</h4>
-
                             <h6>E-Mail : </h6>
                             <input className="inpt" type="email" placeholder="enter email"
                                 {...register("email", { required: true })} />
@@ -41,9 +57,11 @@ function SignUp() {
                             <input className="inpt" type="password" placeholder="enter password"
                                 {...register("password_confirmation", { required: true })} />
                             {errors.password_confirmation && <span className="err">Wrong Password</span>}
-                            <center>
-                                <button className="btn btn-outline-primary" type="submit"> Submit </button>
-                            </center>
+                            <br />
+                                <button className="btn btn-outline-primary" type="submit">  {loading?
+             <ClipLoader loading={loading}  size={20} />
+              :" Submit"} </button>
+                            <p>If you have already account,<a href="/login">LOGIN</a></p>
                         </form>
 
                    
